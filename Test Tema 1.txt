@@ -1,0 +1,19 @@
+1 - Pregunta fundamental a la que pretende responder este curso: Para desarrollar mejor software
+2 - Aspectos fundamentales de la arquitectura software: Documentacion y organizacion del sistema
+3 - La arquitectura software es una disciplina que se centra exclusivamente en el diseño software : Falso
+4 - No debe preocuparse por el diseño de algoritmos: Falso
+5 - El arquitecto de software no debería usar lenguaje matemático: Falso
+6 - Se puede evaluar algún aspecto del sistema en la documentación: Modularidad y escalabilidad, objetivos cualitativos y cuantitativos.
+7 - 3 Vistas del software: Dinámica, estática, y distribución.
+8 - Diferencia entre patron de diseño y arquitectural: Diseño solucion a problema específico, arquitectural solución a todo el sistema, nivel de abtracción
+9 - Acoplamiento hace referencia al diseño interno del modulo: Falso
+10 - Concepto de encapsulación relacionado con ocultación de información: Verdadero
+11 - Actividad más importante del arquitecto segun Fowler: Predecir las necesidades antes de necesitarlas, guiar al equipo
+12 - Otra actividad del arquitecto: Gestor de riesgos, hablar con los clientes
+13 - El mayor problema que hace el sistema complejo: La irreversibilidad
+14 - Beneficio que aporta la arquitectura del software: base del diseño, se pueden analizar propiedades
+15 - Hardware vs software: forma de escalar y la poca cantidad de componentes que posee
+16 - Que es un metamodelo: modelo de modelos que es la base de UML
+17 - A quien le es util un metamodelo: a las herramientas CASE, ya que si el modelo que estas realizando cumple las reglas del metamodelo se le puede dar el OK al modelo
+18 - 
+19 - 
