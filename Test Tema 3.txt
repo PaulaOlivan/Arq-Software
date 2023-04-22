@@ -1,0 +1,18 @@
+1 - Sentencia SQL : gestion de recuersos
+2 - Modulo de calculos: lógica de aplicacion
+3 - Contexto utilizarías bottomup : sistemas legados
+4 - Desarrollo topdown hardware homogenoe: Si, facilita el desarrollo al tener todo el mismo sistema, mejormantenimeinto
+5 - Sistema legado : deja de ser utilizado para lo que habia sido inicialmente diseñado, o en un contexto o SO diferente
+6 - Tecnica para reutilizar un sistema legado : wrappers
+7 - Ventaja de arquitecturas 1-tier : centralizado saber donde estan los datos, facilidad de implementacion, mejores prestaciones
+8 - Beneficio de diseño da arquitecturas 1tier sobre 2tier : No tiene ninguno a priori
+9 - Tecnologia dio paso a las 2-tier : comercializacion PCs internet, RPC
+10 - Mayor cohesion : 3-tier, cada capa hace unicamente una funcion
+11 - Esencial las APIs : posibilita sacar los clientes de las maquinas servidoras, afecta al principio de cohesión, encapsulas servicios, baja el acoplamiento
+12 - Interfaces ODBC V o F : Falso (3-tier) estandarizacionde la capa de base de datos
+13 - Problemas arquitecturas 2.tier : integración de diferentes servidores o aplicaciones. Antes de las 3-tier se solucionaba programando parte de la logica de aplicacion dentro del cliente 
+14 - Ventaja 3-tier sobre 2-tier : mayor modularidad, mas cohesion, mas escalable, mas portabilidad, mas reusabilidad
+15 - Definicion de middleware : software que se encuentra entre cliente y servidor de manera que nos permite establecer comunicacion entre cliente y servidor. Evoluciono hasta convertirse en un entorno de desarrollo que permitia hacer balanceo de cargas, autenticacion
+16 - Solucion para la comunicacion entre sistemas : Si, en el contexto donde CORBA hubiera funcionado y todo el mundo tuviera el mismo middleware :´)
+17 - Comunicación asíncrona beneficia principio de diseño : Sí, al no haber necesidad de coordinación nos permite no tener que acoplar temporalmente cliente y servidor.
+18 - Modularidad y prestaciones están en conflicto, en que contexto no y porqué : 

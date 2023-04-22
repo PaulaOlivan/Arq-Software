@@ -1,0 +1,12 @@
+Vista de modulos: abstraccion bien, descripcion responsabilidades hay cosas solapadas, añadir matriz de dependencias, relaciones de los diagramas de clases.
+Documentar las interfaces, metodos identificarlos y poner quien usa cada método (algunos estarán incluidos en la matriz de dependencia)
+
+Vista de Componente Conector: hacer el mapeo de interfaz a puerto de vista Cyc, mapeo de componentes con modulos, no describimos los conectores
+
+Vista de despliegue: elementos no se corresponden con los de vista de componente y conector
+
+Vista de instalacion: poner como instalacion android
+
+Vista de asignación de trabajo: requisitos a implementar (en el PDF del pen)
+
+
