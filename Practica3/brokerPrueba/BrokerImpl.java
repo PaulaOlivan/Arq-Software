@@ -2,6 +2,7 @@ import java.rmi.RemoteException;
 import java.rmi.Naming;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
+import java.util.ArrayList;
 
 public class BrokerImpl  extends UnicastRemoteObject
 implements Broker
@@ -21,7 +22,7 @@ implements Broker
     {
         super();
         this.nameBroker = "Broker_771";
-        this.IPBroker = "155.210.154.204:32002";
+        this.IPBroker = "155.210.154.204:32004";
     }
 
     //Public methods of the interface
@@ -44,6 +45,23 @@ implements Broker
         System. out.println("Tipo de retorno: " + tipo_retorno);
     }
 
+    public void lanzarSuma() throws RemoteException
+    {
+        try{
+            String hostname = "155.210.154.206:32006";
+            Mates server = (Mates) Naming.lookup("//" + hostname + "/Mates_771");
+    
+            System.out.println("Conectando al servidor de calculos matematicos...");
+
+            int resultado = server.suma();
+            System.out.println("El resultado de la suma es: " + resultado);
+        }
+        catch (Exception e){
+            System.err.println("Matematicas exception:");
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String args[]){
         try
         {
@@ -53,6 +71,7 @@ implements Broker
             //Registrar el objeto remoto
             Naming.rebind("//" + obj.IPBroker + "/" + obj.nameBroker, obj);
             System.out.println("Broker listo para que clientes y servidores se conecten!");
+            
         }
         catch (Exception ex)
         {
