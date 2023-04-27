@@ -21,7 +21,7 @@ implements Broker
     {
         super();
         this.nameBroker = "Broker_771";
-        this.IPBroker = "155.210.154.204:32004";
+        this.IPBroker = "155.210.154.203:32004";
         this.servidores = new ArrayList<Servidor>();
         this.servicios = new ArrayList<Servicio>();
     }
@@ -43,6 +43,26 @@ implements Broker
             iguales = true;
         }
         return iguales;
+    }
+
+    // Función que devuelve true si y solo si los datos de server y los parámetros introducidos son iguales
+    private Boolean sonIguales (String nombreServidor, String nombreServicio, Servicio service){
+        Boolean iguales = false;
+        if (service.getNombre().equals(nombreServicio) && service.getServidor().equals(nombreServidor)){
+            iguales = true;
+        }
+        return iguales;
+    }
+
+    //Función que devuelve un string con el nombre del servidor que contiene el servicio
+    private String getServidor(String nombreServicio){
+        String nombreServidor = "";
+        for (Servicio servicio : servicios) {
+            if (servicio.getNombre().equals(nombreServicio)){
+                nombreServidor = servicio.getServidor();
+            }
+        }
+        return nombreServidor;
     }
 
     //Public methods of the interface
@@ -102,6 +122,30 @@ implements Broker
         }
     }
 
+    // Funcion que borra un servicio al ArrayList de servicios del broker, si
+    // se ha podido borrar el servicio devuelve true, en caso contrario false
+    public Boolean baja_servicio(String nombreServidor, String nombreServicio){
+        Boolean borrado = false;
+        //Comprobamos que en la lista de servicios hay un servicio con igual nombre e igual servidor asociado
+        for (Servicio servicio : servicios) 
+        {
+            if (sonIguales(nombreServidor, nombreServicio, servicio)) 
+            {
+                borrado = true;
+                servicios.remove(servicio);
+            }
+        }
+        if (borrado)
+        {
+            System.out.println("Servicio " + nombreServicio + " borrado de " + nombreServidor + "\n");
+            return true;
+        }
+        else{
+            System.out.println("Servicio " + nombreServicio + " no encontrado en " + nombreServidor + "\n");
+            return false;
+        }
+    }
+
     public String listar_servicios(){
         String lista = "";
         for (Servicio servicio : servicios) {
@@ -119,24 +163,76 @@ implements Broker
         return tipos;
     }
 
-    public int ejecutar_servicio(String functionName, int a, int b) throws RemoteException
+    public String ejecutar_servicio(String functionName, String a, String b, String c, String d, String f) throws RemoteException
     {
-        /* return a+b; */
         try{
-            String hostname = "155.210.154.206:32006";
-            Mates server = (Mates) Naming.lookup("//" + hostname + "/Mates_771");
-    
-            System.out.println("Conectando al servidor de calculos matematicos...");
-            Method functionOverForm = server.getClass().getMethod(functionName, int.class, int.class);
 
-            // Invoke the method with the specified parameters
-             int resultado = (int) functionOverForm.invoke(server, a, b);
-            return resultado;
+            String servername = getServidor(functionName);
+            String hostname = servername.getIP();
+            Mates server = (Mates) Naming.lookup("//" + hostname + servername);
+    
+            System.out.println("Conectando al servidor corresponciente");
+
+            //Probamos a ver que da ^
+            //hay un chat en el boton de liveshare
+            // Get the method by passing the name and parameter class as arguments
+
+            a_ = Integer.parseInt(b);
+            b_ = Integer.parseInt(b);
+            c_ = Integer.parseInt(c);
+            d_ = Integer.parseInt(d);
+            f_ = Integer.parseInt(f);
+            int[] args = {a_, b_, c_, d_, f_};
+            Object trueInt = Integer.valueOf(1);
+            Object trueString = "truth";
+            ArrayList<Object> argsObjList = new ArrayList<>();
+
+            // Recorre los argumentos y agrega los que no sean nulos a una lista de objetos
+            for (int arg : args) {
+                if (arg != 0) {
+                    argsObjList.add(arg);
+                }
+            }
+
+            Object[] argsObj = argsObjList.toArray();
+
+            Class<?>[] argsType = new Class[argsObj.length];
+
+            // Recorre los objetos de argumentos y asigna sus clases a la matriz de clases de argumentos
+            for (int i = 0; i < argsObj.length; i++) {
+                if (argsObj[i] == null) {
+                    argsType[i] = null;
+                } else {
+                    
+                    if( argsObj[i].getClass() == trueInt.getClass()){
+                        argsType[i] = int.class;
+                    }
+                    else if( argsObj[i].getClass() == trueString.getClass()){
+                        argsType[i] = String.class;
+                        System.out.println("String attached");
+                    }
+                    else{
+                        System.out.println("I am error\n");
+                    }
+                }
+            }
+                //Mostramos los valores de argsType
+                for (int i = 0; i < argsType.length; i++) {
+                    System.out.println("argsType[" + i + "] = " + argsType[i]);
+                }
+
+            // Obtiene el método correspondiente y lo invoca con los argumentos proporcionados
+            Method functionOverForm = server.getClass().getMethod(functionName, argsType);
+            // Mostramos por pantalla el servicio que se va a ejecutar
+            System.out.println("Ejecutando servicio: " + functionName + " con los parametros: " + argsObjList);
+            int resultado = (int) functionOverForm.invoke(server, argsObj);
+            return String.valueOf(resultado);
+
         }
         catch (Exception e){
-            System.err.println("Matematicas exception:");
+            System.err.println("Servidor exception:");
             e.printStackTrace();
-            return -1;
+            return String.valueOf(-1);
         }
     }
 

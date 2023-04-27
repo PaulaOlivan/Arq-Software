@@ -9,6 +9,7 @@ public interface Broker extends Remote
     Boolean registrar_servidor(String nombreServidor, String host_remoto_IP_puerto) throws RemoteException;
     Boolean alta_servicio(String nombreServidor, String nombreServicio, List<Class<?>> lista_param, String tipo_retorno) throws RemoteException;
     String listar_servicios() throws RemoteException;
+    Boolean baja_servicio(String nombreServidor, String nombreServicio) throws RemoteException;
 
-    int ejecutar_servicio(String functionName, int a, int b) throws RemoteException;
+    String ejecutar_servicio(String functionName, String a, String b, String c, String d, String e) throws RemoteException;
 }
