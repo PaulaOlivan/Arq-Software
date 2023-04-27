@@ -1,11 +1,4 @@
-package Broker;
-/*
- * Autores: Paula Olivan Usieto (771938) & Juan Pellicer Barco (818138)
- * Fecha de creación: 10/04/2023
- * Descripción: fichero que implementa la clase Servicios para la creación de
- *              la matriz dentro del Broker
- * AHORA MISMO NO ES NECESARIO, LA CLASE SE DEFINE EN EL PROPIO FICHERO Broker.java
- */
+
 
 import java.util.List;
 import java.util.ArrayList;

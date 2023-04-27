@@ -45,20 +45,22 @@ implements Broker
         System. out.println("Tipo de retorno: " + tipo_retorno);
     }
 
-    public void lanzarSuma() throws RemoteException
+    public int lanzarSuma(int a, int b) throws RemoteException
     {
+        /* return a+b; */
         try{
             String hostname = "155.210.154.206:32006";
             Mates server = (Mates) Naming.lookup("//" + hostname + "/Mates_771");
     
             System.out.println("Conectando al servidor de calculos matematicos...");
 
-            int resultado = server.suma();
-            System.out.println("El resultado de la suma es: " + resultado);
+            int resultado = server.suma(a, b);
+            return resultado;
         }
         catch (Exception e){
             System.err.println("Matematicas exception:");
             e.printStackTrace();
+            return -1;
         }
     }
 

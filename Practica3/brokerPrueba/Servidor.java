@@ -1,11 +1,6 @@
-package Broker;
-/*
- * Autores: Paula Olivan Usieto (771938) & Juan Pellicer Barco (818138)
- * Fecha de creación: 21/02/2023
- * Descripción: fichero que implementa la clase Servidor para que pueda ser lanzado
- */
 
-public /*abstract*/ class Servidor {
+
+public class Servidor {
     String nombreServidor;
     String IP;
 

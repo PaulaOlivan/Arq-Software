@@ -24,8 +24,8 @@ public class Cliente{
             //Obtenemos el nombre de la colección y el número de libros
 	        System.out.println("Estoy conectado");
 
-            server.lanzarSuma();
-            
+            int resul =server.lanzarSuma(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
+            System.out.println("El resultado de la suma es: " + resul);
         }
             catch (Exception ex)
         {

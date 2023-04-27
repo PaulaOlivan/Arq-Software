@@ -3,6 +3,8 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
+import Servicio;
+
 public interface Broker extends Remote{
     
     //métodos del interface

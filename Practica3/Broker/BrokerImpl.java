@@ -7,11 +7,11 @@ package Broker;
  */
 
 import java.util.List;
-import java.util.ArrayList;
-//import Broker.Resultado;
-import Broker.Servidor; 
-import Broker.Servicio;
 
+import Servicio;
+import Servidor;
+
+import java.util.ArrayList;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;

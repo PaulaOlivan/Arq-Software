@@ -9,16 +9,18 @@
 package Broker;
 import java.util.ArrayList;
 import java.util.List;
+
 import java.rmi.Naming;
 
 
 
-public class Cadenas extends Servidor{
+public class Cadenas{
     String IP;
     String nombreServidor;
 
     public Cadenas(String _ip, String _nombre) {
-        super(_nombre, _ip);
+        this.IP = _ip;
+        this.nombreServidor = _nombre;
     }
 
     public String mayusculas(String a) {
