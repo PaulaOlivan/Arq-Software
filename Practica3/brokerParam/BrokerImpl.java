@@ -65,6 +65,17 @@ implements Broker
         return nombreServidor;
     }
 
+    //Función que devuelve un string con el nombre del servidor que contiene el servicio
+    private String getIpAdress(String nombreServicio){
+        String ipServidor = "";
+        for (Servidor servidorIt : servidores) {
+            if (servidorIt.getNombre().equals(nombreServicio)){
+                ipServidor = servidorIt.getIP();
+            }
+        }
+        return ipServidor;
+    }
+
     //Public methods of the interface
     public Boolean registrar_servidor(String nombreServidor, String host_remoto_IP_puerto) throws RemoteException
     {   
@@ -168,7 +179,7 @@ implements Broker
         try{
 
             String servername = getServidor(functionName);
-            String hostname = servername.getIP();
+            String hostname = getIpAdress(servername);
             Mates server = (Mates) Naming.lookup("//" + hostname + servername);
     
             System.out.println("Conectando al servidor corresponciente");
@@ -177,11 +188,11 @@ implements Broker
             //hay un chat en el boton de liveshare
             // Get the method by passing the name and parameter class as arguments
 
-            a_ = Integer.parseInt(b);
-            b_ = Integer.parseInt(b);
-            c_ = Integer.parseInt(c);
-            d_ = Integer.parseInt(d);
-            f_ = Integer.parseInt(f);
+            int a_ = Integer.parseInt(b);
+            int b_ = Integer.parseInt(b);
+            int c_ = Integer.parseInt(c);
+            int d_ = Integer.parseInt(d);
+            int f_ = Integer.parseInt(f);
             int[] args = {a_, b_, c_, d_, f_};
             Object trueInt = Integer.valueOf(1);
             Object trueString = "truth";

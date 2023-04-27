@@ -54,9 +54,7 @@ public class Cliente {
                 System.out.println("Nombre de la funcion: " + argsProcessed[0]);
                 System.out.println("Argumentos: " + argsProcessed[1] + " " + argsProcessed[2] + " " + argsProcessed[3]
                         + " " + argsProcessed[4] + " " + argsProcessed[5]);
-                String resultado = server.ejecutar_servicio(argsProcessed[0], Integer.parseInt(argsProcessed[1]),
-                                            Integer.parseInt(argsProcessed[2]), Integer.parseInt(argsProcessed[3]),
-                                            Integer.parseInt(argsProcessed[4]), Integer.parseInt(argsProcessed[5]));
+                String resultado = server.ejecutar_servicio(argsProcessed[0], argsProcessed[1],argsProcessed[2],argsProcessed[3],argsProcessed[4],argsProcessed[5]);
                 System.out.println("El resultado obtenido es: " + resultado);
 
                 // Le pedimos al Broker las operaciones que tiene registradas
@@ -67,7 +65,7 @@ public class Cliente {
                 try {
                     String hostname = "155.210.154.203:32004"; // se puede usar "IP:puerto"
                     Broker server = (Broker) Naming.lookup("//" + hostname + "/Broker_771");
-                    String resultado = String.ValueOf(server.ejecutar_servicio(argsProcessed[0], argsProcessed[1], argsProcessed[2],
+                    String resultado = String.valueOf(server.ejecutar_servicio(argsProcessed[0], argsProcessed[1], argsProcessed[2],
                             argsProcessed[3], argsProcessed[4], argsProcessed[5]));
                     System.out.println("El resultado obtenido es: " + resultado);
                     
@@ -77,6 +75,9 @@ public class Cliente {
                 catch (Exception ex) {
                     System.out.println(ex); 
                 }
+            }
+            catch (Exception ex) {
+                System.out.println(ex);
             }
         }
     }
