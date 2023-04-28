@@ -54,7 +54,7 @@ implements Mates
             Naming.rebind("//" + obj.IPServidor + "/" + obj.nombreServidor, obj);
             System.out.println("Servidor de operaciones matemáticas listo para recibir operaciones");
 
-            String brokername = "155.210.154.203:32004";
+            String brokername = "155.210.154.203:32003";
             Broker server = (Broker) Naming.lookup("//" + brokername + "/Broker_771");
 
             if (args.length == 0){

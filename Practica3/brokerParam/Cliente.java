@@ -24,7 +24,7 @@ public class Cliente {
             try {
                 // Paso 1 - Obtener una referencia al objeto servidor creado anteriormente
                 // Nombre del host servidor o su IP. Es donde se buscar al objeto remoto
-                String hostname = "155.210.154.203:32004"; // se puede usar "IP:puerto"
+                String hostname = "155.210.154.203:32003"; // se puede usar "IP:puerto"
                 Broker server = (Broker) Naming.lookup("//" + hostname + "/Broker_771");
 
                 // Paso 2 - Invocar remotamente los metodos del objeto servidor:
@@ -43,7 +43,7 @@ public class Cliente {
             try {
                 // Paso 1 - Obtener una referencia al objeto servidor creado anteriormente
                 // Nombre del host servidor o su IP. Es donde se buscar al objeto remoto
-                String hostname = "155.210.154.203:32004"; // se puede usar "IP:puerto"
+                String hostname = "155.210.154.203:32003"; // se puede usar "IP:puerto"
                 Broker server = (Broker) Naming.lookup("//" + hostname + "/Broker_771");
 
                 // Paso 2 - Invocar remotamente los metodos del objeto servidor:
@@ -59,7 +59,7 @@ public class Cliente {
             } 
             catch (NumberFormatException e) {
                 try {
-                    String hostname = "155.210.154.203:32004"; // se puede usar "IP:puerto"
+                    String hostname = "155.210.154.203:32003"; // se puede usar "IP:puerto"
                     Broker server = (Broker) Naming.lookup("//" + hostname + "/Broker_771");
                     String resultado = String.valueOf(server.ejecutar_servicio(argsProcessed[0], argsProcessed[1], argsProcessed[2],
                             argsProcessed[3], argsProcessed[4], argsProcessed[5]));

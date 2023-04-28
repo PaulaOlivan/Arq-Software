@@ -21,7 +21,7 @@ implements Broker
     {
         super();
         this.nameBroker = "Broker_771";
-        this.IPBroker = "155.210.154.203:32004";
+        this.IPBroker = "155.210.154.203:32003";
         this.servidores = new ArrayList<Servidor>();
         this.servicios = new ArrayList<Servicio>();
     }
