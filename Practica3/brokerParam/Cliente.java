@@ -20,7 +20,7 @@ public class Cliente {
             argsProcessed[i] = args[i];
         }
 
-        if (argsProcessed.length == 0) {
+        if (args.length == 0) {
             try {
                 // Paso 1 - Obtener una referencia al objeto servidor creado anteriormente
                 // Nombre del host servidor o su IP. Es donde se buscar al objeto remoto
@@ -50,16 +50,12 @@ public class Cliente {
                 // Obtenemos el nombre de la colección y el número de libros
                 System.out.println("Estoy conectado");
 
-                // Le pedimos al Broker las operaciones que tiene registradas
-                System.out.println("Nombre de la funcion: " + argsProcessed[0]);
-                System.out.println("Argumentos: " + argsProcessed[1] + " " + argsProcessed[2] + " " + argsProcessed[3]
-                        + " " + argsProcessed[4] + " " + argsProcessed[5]);
                 String resultado = server.ejecutar_servicio(argsProcessed[0], argsProcessed[1],argsProcessed[2],argsProcessed[3],argsProcessed[4],argsProcessed[5]);
-                System.out.println("El resultado obtenido es: " + resultado);
+                System.out.println("\nEl resultado obtenido es: " + resultado + "\n");
 
                 // Le pedimos al Broker las operaciones que tiene registradas
                 String lista_servicios = server.listar_servicios();
-                System.out.println("Lista de servicios: \n" + lista_servicios);
+                System.out.println("\nLista de servicios: \n" + lista_servicios);
             } 
             catch (NumberFormatException e) {
                 try {
@@ -70,7 +66,7 @@ public class Cliente {
                     System.out.println("El resultado obtenido es: " + resultado);
                     
                     String lista_servicios = server.listar_servicios();
-                    System.out.println("Lista de servicios: \n" + lista_servicios);
+                    System.out.println("\nLista de servicios: \n" + lista_servicios);
                 } 
                 catch (Exception ex) {
                     System.out.println(ex); 

@@ -144,6 +144,7 @@ implements Broker
             {
                 borrado = true;
                 servicios.remove(servicio);
+                break;
             }
         }
         if (borrado)
@@ -180,7 +181,7 @@ implements Broker
 
             String servername = getServidor(functionName);
             String hostname = getIpAdress(servername);
-            Mates server = (Mates) Naming.lookup("//" + hostname + servername);
+            Mates server = (Mates) Naming.lookup("//" + hostname + "/" + servername);
     
             System.out.println("Conectando al servidor corresponciente");
 
@@ -188,7 +189,7 @@ implements Broker
             //hay un chat en el boton de liveshare
             // Get the method by passing the name and parameter class as arguments
 
-            int a_ = Integer.parseInt(b);
+            int a_ = Integer.parseInt(a);
             int b_ = Integer.parseInt(b);
             int c_ = Integer.parseInt(c);
             int d_ = Integer.parseInt(d);
@@ -220,7 +221,6 @@ implements Broker
                     }
                     else if( argsObj[i].getClass() == trueString.getClass()){
                         argsType[i] = String.class;
-                        System.out.println("String attached");
                     }
                     else{
                         System.out.println("I am error\n");
@@ -235,10 +235,74 @@ implements Broker
             // Obtiene el método correspondiente y lo invoca con los argumentos proporcionados
             Method functionOverForm = server.getClass().getMethod(functionName, argsType);
             // Mostramos por pantalla el servicio que se va a ejecutar
-            System.out.println("Ejecutando servicio: " + functionName + " con los parametros: " + argsObjList);
+            System.out.println("Ejecutando servicio: " + functionName + " con los parametros: " + argsObjList + "\n");
             int resultado = (int) functionOverForm.invoke(server, argsObj);
             return String.valueOf(resultado);
 
+        }
+        catch (ClassCastException e){//Falla al usar ints, empleamos strings
+            try{
+                String servername = getServidor(functionName);
+                String hostname = getIpAdress(servername);
+                Cadenas server = (Cadenas) Naming.lookup("//" + hostname + "/" + servername);
+        
+                System.out.println("Conectando al servidor corresponciente");
+
+                //Probamos a ver que da ^
+                //hay un chat en el boton de liveshare
+                // Get the method by passing the name and parameter class as arguments
+
+                
+                String[] args = {a, b, c, d, f};
+                Object trueInt = Integer.valueOf(1);
+                Object trueString = "truth";
+                ArrayList<Object> argsObjList = new ArrayList<>();
+
+                // Recorre los argumentos y agrega los que no sean nulos a una lista de objetos
+                for (String arg : args) {
+                    if (!arg.equals("0")) {
+                        argsObjList.add(arg);
+                    }
+                }
+
+                Object[] argsObj = argsObjList.toArray();
+
+                Class<?>[] argsType = new Class[argsObj.length];
+
+                // Recorre los objetos de argumentos y asigna sus clases a la matriz de clases de argumentos
+                for (int i = 0; i < argsObj.length; i++) {
+                    if (argsObj[i] == null) {
+                        argsType[i] = null;
+                    } else {
+                        
+                        if( argsObj[i].getClass() == trueInt.getClass()){
+                            argsType[i] = int.class;
+                        }
+                        else if( argsObj[i].getClass() == trueString.getClass()){
+                            argsType[i] = String.class;
+                        }
+                        else{
+                            System.out.println("I am error\n");
+                        }
+                    }
+                }
+                    //Mostramos los valores de argsType
+                    for (int i = 0; i < argsType.length; i++) {
+                        System.out.println("argsType[" + i + "] = " + argsType[i]);
+                    }
+
+                // Obtiene el método correspondiente y lo invoca con los argumentos proporcionados
+                Method functionOverForm = server.getClass().getMethod(functionName, argsType);
+                // Mostramos por pantalla el servicio que se va a ejecutar
+                System.out.println("Ejecutando servicio: " + functionName + " con los parametros: " + argsObjList);
+                String resultado = (String) functionOverForm.invoke(server, argsObj);
+                return String.valueOf(resultado);
+            }
+            catch (Exception ee){
+                System.err.println("Servidor exception:");
+                ee.printStackTrace();
+                return String.valueOf(-1);
+            }    
         }
         catch (Exception e){
             System.err.println("Servidor exception:");

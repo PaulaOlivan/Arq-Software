@@ -56,51 +56,52 @@ implements Mates
 
             String brokername = "155.210.154.203:32004";
             Broker server = (Broker) Naming.lookup("//" + brokername + "/Broker_771");
-    
-            System.out.println("Registrando servidor...");
-            server.registrar_servidor(obj.nombreServidor, obj.IPServidor);
-            System.out.println("Servidor registrado!");
 
             if (args.length == 0){
+
+                System.out.println("Registrando servidor...");
+                server.registrar_servidor(obj.nombreServidor, obj.IPServidor);
+                System.out.println("Servidor registrado!");
+
                 System.out.println("Registrando servicios...");
-            List<Class<?>> lista_param = new ArrayList<>();
-            lista_param.add(int.class);
-            lista_param.add(int.class);
+                List<Class<?>> lista_param = new ArrayList<>();
+                lista_param.add(int.class);
+                lista_param.add(int.class);
 
-            Boolean anadido = false;
-            anadido = server.alta_servicio(obj.nombreServidor, "resta", lista_param, "int");
-            if (anadido == true){
-                System.out.println("Servicio resta registrado!");
-            } 
-            else{
-                System.out.println("Servicio resta no registrado!");
-            }
-            anadido = server.alta_servicio(obj.nombreServidor, "multiplicacion", lista_param, "int");
-            if (anadido == true){
-                System.out.println("Servicio multiplicacion registrado!");
-            } 
-            else{
-                System.out.println("Servicio multiplicacion no registrado!");
-            }
+                Boolean anadido = false;
+                anadido = server.alta_servicio(obj.nombreServidor, "resta", lista_param, "int");
+                if (anadido == true){
+                    System.out.println("Servicio resta registrado!");
+                } 
+                else{
+                    System.out.println("Servicio resta no registrado!");
+                }
+                anadido = server.alta_servicio(obj.nombreServidor, "multiplicar", lista_param, "int");
+                if (anadido == true){
+                    System.out.println("Servicio multiplicar registrado!");
+                } 
+                else{
+                    System.out.println("Servicio multiplicar no registrado!");
+                }
 
 
-            lista_param.add(int.class);
-            anadido = server.alta_servicio(obj.nombreServidor, "suma", lista_param, "int");
-            if (anadido == true){
-                System.out.println("Servicio suma registrado!");
-            } 
-            else{
-                System.out.println("Servicio suma no registrado!");
-            }
-            anadido = server.alta_servicio(obj.nombreServidor, "suma", lista_param, "int");
-            if (anadido == true){
-                System.out.println("Servicio suma registrado!");
-            } 
-            else{
-                System.out.println("Servicio suma no registrado!");
-            }
+                lista_param.add(int.class);
+                anadido = server.alta_servicio(obj.nombreServidor, "suma", lista_param, "int");
+                if (anadido == true){
+                    System.out.println("Servicio suma registrado!");
+                } 
+                else{
+                    System.out.println("Servicio suma no registrado!");
+                }
+                anadido = server.alta_servicio(obj.nombreServidor, "suma", lista_param, "int");
+                if (anadido == true){
+                    System.out.println("Servicio suma registrado!");
+                } 
+                else{
+                    System.out.println("Servicio suma no registrado!");
+                }
 
-            System.out.println("\nPeticiones de añadir servicios al broker realizadas!");
+                System.out.println("\nPeticiones de añadir servicios al broker realizadas!");
             }
             
             // Eliminamos una función y añadimos una nueva
@@ -116,12 +117,12 @@ implements Mates
                 List<Class<?>> lista_param = new ArrayList<>();
                 lista_param.add(int.class);
                 lista_param.add(int.class);
-                Boolean anadido = server.alta_servicio(obj.nombreServidor, "division", lista_param, "int");
+                Boolean anadido = server.alta_servicio(obj.nombreServidor, "dividir", lista_param, "int");
                 if (anadido == true){
-                    System.out.println("Servicio division registrado!");
+                    System.out.println("Servicio dividir registrado!");
                 } 
                 else{
-                    System.out.println("Servicio division no registrado!");
+                    System.out.println("Servicio dividir no registrado!");
                 }
             }
         }
