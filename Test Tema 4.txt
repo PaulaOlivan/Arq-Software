@@ -1,0 +1,11 @@
+1) Limitaciones Brokers de Objetos -> sicronismo, interempresarialidad
+2) API para MOM -> conect, publicarMSG, recibirMSG, unirseCola
+3) Mecanismo gestion errores de MOM -> durabilidad, persistencia, rolback
+4) Mejora prestaciones MOM -> varios servers a una cola para conseguir balanceo de cargas
+5) Resumen de problema de Brokers de Mensajes a MOM -> responsabilidad de envio cae en el receptor, la logica de enrutamiento pasa a ser del brokers.
+6) Ventajas de los brokers de mensajes -> que introducen lógica para enrutar el mensaje
+7) Mayor problema de Boker de mensajes -> las prestaciones bajan al tener muchas reglas
+8) PS es modo de interaccion en Broker se Mensajes -> Verdadero
+9) Diferencia entre observer y PS -> El acoplamiento en observer es acoplamiento abstracto
+10) Modificacion en observer para dar soporte al modelo push -> el subject manda toda la informacion al observer y este lo actualiza directamente, se añade un parametro al update
+11) Cambios en observer para que pueda ser notificado por varios subject -> tiene un vector de subject a los que está suscrito, el update tiene un parámetro en el que marca que subject ha sido actualizado
