@@ -33,15 +33,26 @@ implements Broker
 
     public void declarar_cola(String nombre_cola, String nombre_consumidor, String ip) throws RemoteException
     {
-        Cola cola = new Cola(nombre_cola);
-        colas.add(cola);
-        Suscriptor consus = new Suscriptor(nombre_consumidor, ip, nombre_cola);
-        consumidores.add(consus);
+        
+        Boolean existe = false;
+
+        for (int i = 0; i < colas.size(); i++){
+            if (colas.get(i).nombre.equals(nombre_cola)){
+                existe = true;
+            }
+        }
+
+        if (!existe) {
+            Cola cola = new Cola(nombre_cola);
+            colas.add(cola);
+            Suscriptor consus = new Suscriptor(nombre_consumidor, ip, nombre_cola);
+        }
+
     }
 
     // Función que será invocada desde los consumidores para consumir un
     // mensaje de la cola nombre_cola
-    public String consumir (String nombre_cola, String mensaje) throws RemoteException
+    /* public String consumir (String nombre_cola, String mensaje) throws RemoteException
     {
         String message = "";
         for (Cola cola : colas){
@@ -50,20 +61,40 @@ implements Broker
             }
         }
         return message;
-    }
+    } */
+
+    public void consumir(String nombre_cola, StringBuilder mensaje) throws RemoteException {
+    for (Cola cola : colas) {
+        if (cola.nombre.equals(nombre_cola)) {
+            mensaje.replace(0, mensaje.length(), cola.consumeMessage(""));
+        }
+    }   
+}
+
 
     public void publicar (String nombre_cola, String mensaje) throws RemoteException
     {   
-        // Crear timer para que cuando pasen 5 mins el mensaje se elimine de la cola
-        
+        // Crear timer para que cuando pasen 5 mins el mensaje se elimine de la cola 
 
+        System.out.println("Existen un total de " + colas.size() + " colas");
         for (int i = 0; i < colas.size(); i++){
             if (colas.get(i).nombre.equals(nombre_cola)){
                 colas.get(i).addMessage(mensaje);
+                System.out.println("El mensaje añadido a la cola " + nombre_cola + " es:" + mensaje);
             }
         }
-        System.out.println("Mensaje publicado");
-        System.out.println("Mensaje: " + mensaje);
+        //System.out.println("Mensaje publicado en " + nombre_cola);
+        //System.out.println("Mensaje: " + mensaje);
+
+        // Mostrar por pantalla todos los mensajes que hay dentro de la cola
+        System.out.println("Mensajes en la cola " + nombre_cola + ":");
+        for (int i = 0; i < colas.size(); i++){
+            if (colas.get(i).nombre.equals(nombre_cola)){
+                for (int j = 0; j < colas.get(i).mensajes.size(); j++){
+                    System.out.println(colas.get(i).mensajes.get(j));
+                }
+            }
+        }
     }
 
     public static void main(String args[]) {

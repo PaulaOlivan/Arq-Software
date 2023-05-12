@@ -6,20 +6,14 @@ public class Cola
     String nombreFich = nombre+".txt";
     ArrayList<String> mensajes = new ArrayList<String>();
     ArrayList<String> suscriptores = new ArrayList<String>();
-    Boolean existance = false;
+    private static Cola instance;
 
     //Constructor de la clase Cola
     public Cola (String _name){
 
-        if (!existance){//Singleton
-            nombre = _name;
-            existance = true;
-        }
-        else{
-            System.out.println("La cola ya existe");
-            //Añadir nuevo suscriptor
-        }
+        nombre = _name;
     }
+
 
     //Funcion que dado un String mensaje lo agrega a la cola
     public void addMessage(String _message){

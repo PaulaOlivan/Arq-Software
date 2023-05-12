@@ -30,7 +30,8 @@ public class Consumidor extends UnicastRemoteObject{
             Broker broker = (Broker) Naming.lookup("//" + brokerName + "/Broker_771");
 
             // Consumir mensaje
-            String msg = broker.consumir(nombre, "");
+            StringBuilder msg = new StringBuilder();
+            broker.consumir(nombre, msg);
             System.out.println("Procesado el mensaje de la cola " + nombre + "\n");
             Thread.sleep(500); //Espera medio segundo
             System.out.println("El mensaje procesado ha sido: " + msg + "\n");
@@ -49,7 +50,8 @@ public class Consumidor extends UnicastRemoteObject{
 
             // Consumir mensaje
             String nombreCola = "Cola_771";
-            String msg = broker.consumir(nombreCola, "");
+            StringBuilder msg = new StringBuilder();
+            broker.consumir(nombreCola, msg);
             System.out.println("Procesado el mensaje de la cola " + nombreCola + "\n");
             Thread.sleep(500); //Espera medio segundo
             System.out.println("El mensaje procesado ha sido: " + msg + "\n");
