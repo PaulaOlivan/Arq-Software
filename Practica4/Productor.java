@@ -13,34 +13,37 @@ public class Productor {
         return (int) (Math.random() * 100);
     }
     public static void main(String[] args){
-        if (args.length < 2 || args.length > 3){
-            System.out.println("Bad usage, use: java Productor 'nombreBroker' 'IPPuertoBroker'\n");
+        if (args.length < 3 || args.length > 4){
+            System.out.println("Bad usage, use: java Productor 'nombreBroker' 'IPPuertoBroker 'nameCola'\n");
         }
-        else if (args.length == 2){
+        else if (args.length == 3){
             try{
-                String brokerName = args[1];
-                Broker broker = (Broker) Naming.lookup("//" + brokerName + "/Broker_771");
-
+                String brokerName = args[0];
+                String brokerIP = args[1];
+                String colaName = args[2];
+                Broker broker = (Broker) Naming.lookup("//" + brokerIP + "/" + brokerName);
                 System.out.println("Conectado al broker " + brokerName + " y listo para enviar mensajes");
                 
                 // Crear cola
-                broker.declarar_cola("Cola_771", "", "");
+                broker.declarar_cola(colaName, "", "");
 
                 // Enviar mensaje
                 int num = random();
 
                 String msg = "Mensaje" + num;
-                broker.publicar("Cola_771", msg);
+                broker.publicar(colaName, msg);
             }
             catch(Exception e){
                 System.err.println("Productor exception:");
                 e.printStackTrace();
             }
         }
-        else if(args.length == 3){
+        else if(args.length == 4){
             try{
-                String brokerName = args[1];
-                Broker broker = (Broker) Naming.lookup("//" + brokerName + "/Broker_771");
+                String brokerName = args[0];
+                String brokerIP = args[1];
+                String cola = args[2];
+                Broker broker = (Broker) Naming.lookup("//" + brokerIP + "/" + brokerName);
 
                 System.out.println("Conectado al broker " + brokerName + " y listo para enviar mensajes");
 
@@ -48,7 +51,7 @@ public class Productor {
                 int num = random();
 
                 String msg = "Mensaje" + num;
-                broker.publicar("Cola_771", msg);
+                broker.publicar(cola, msg);
             }
             catch(Exception e){
                 System.err.println("Productor exception:");

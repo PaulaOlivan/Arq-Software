@@ -4,7 +4,7 @@ public interface Broker extends Remote
 {
     public void declarar_cola(String nombre_cola) throws RemoteException; //Para productores
     void declarar_cola(String nombre_cola, String nombre_consumidor, String ip) throws RemoteException; //Para consumidores
-    void consumir (String nombre_cola, StringBuilder mensaje) throws RemoteException;
+    String consumir (String nombre_cola) throws RemoteException;
     void publicar (String nombre_cola, String mensaje) throws RemoteException;
 }
 

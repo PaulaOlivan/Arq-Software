@@ -20,15 +20,37 @@ public class Cola
         mensajes.add(_message);
     }
     
+    //Funcion que elimina un mensaje que se ha caducado
+    public Boolean deleteMessage(String msg){
+        String message = "";
+        Boolean consumido;
+        if (mensajes.size() > 0){
+            message = mensajes.get(0);
+            if (message.equals(msg)){
+                mensajes.remove(0);
+                consumido = true;
+            }
+            else{
+                message = "Error Caducidad, el mensaje buscado no está en la cola";
+                consumido = false;
+            }
+        }
+        else{
+            message = "Error Caducidad, no hay mensajes en la cola";
+            consumido = false;
+        }
+        return consumido;
+    }
+
     //Funcion que busca en la cola un mensaje y lo consume
-    public String consumeMessage(String msg){
+    public String consumeMessage(){
         String message = "";
         if (mensajes.size() > 0){
             message = mensajes.get(0);
             mensajes.remove(0);
         }
         else{
-            message = "No hay mensajes en la cola";
+            message = "Error, no hay mensajes en la cola";
         }
         return message;
     }

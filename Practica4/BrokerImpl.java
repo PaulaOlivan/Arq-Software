@@ -26,6 +26,30 @@ implements Broker
         this.consumidores = new ArrayList<Suscriptor>();
     }
 
+
+    // Función que espera 15 segundos a que un mensaje sea consumido, si pasado
+    // ese tiempo no ha sido consumido, lo elimina de la cola
+    private void caducado(String nombre_cola, String mensaje){
+        try {
+            Thread.sleep(300000); // Esperar 5 minutos hasta que el mensaje caduque
+            for (Cola cola : colas){
+                if (cola.nombre.equals(nombre_cola)){
+                    Boolean consumido = cola.deleteMessage(mensaje);
+                    if (!consumido){
+                        System.out.println("El mensaje " + mensaje + " no está en la cola " + nombre_cola);
+                    }
+                    else{
+                        System.out.println("El mensaje " + mensaje + " se ha sido caducado");
+                    }
+                }
+            }
+        } catch (InterruptedException e) {
+            // Manejar la excepción
+            System.out.println("Error en la espera");
+        }
+    }
+
+
     public void declarar_cola(String nombre_cola) throws RemoteException{//Versión anónima para clientes
         Cola cola = new Cola(nombre_cola);
         colas.add(cola);
@@ -52,24 +76,16 @@ implements Broker
 
     // Función que será invocada desde los consumidores para consumir un
     // mensaje de la cola nombre_cola
-    /* public String consumir (String nombre_cola, String mensaje) throws RemoteException
+    public String consumir (String nombre_cola) throws RemoteException
     {
         String message = "";
         for (Cola cola : colas){
             if (cola.nombre.equals(nombre_cola)){
-                message = cola.consumeMessage("");
+                message = cola.consumeMessage();
             }
         }
         return message;
-    } */
-
-    public void consumir(String nombre_cola, StringBuilder mensaje) throws RemoteException {
-    for (Cola cola : colas) {
-        if (cola.nombre.equals(nombre_cola)) {
-            mensaje.replace(0, mensaje.length(), cola.consumeMessage(""));
-        }
-    }   
-}
+    }
 
 
     public void publicar (String nombre_cola, String mensaje) throws RemoteException
@@ -83,10 +99,16 @@ implements Broker
                 System.out.println("El mensaje añadido a la cola " + nombre_cola + " es:" + mensaje);
             }
         }
-        //System.out.println("Mensaje publicado en " + nombre_cola);
-        //System.out.println("Mensaje: " + mensaje);
+        // LLamar a la función caducado para que el mensaje pueda ser eliminado
+        // si pasa un tiempo determinado
+        new Thread(new Runnable(){
 
-        // Mostrar por pantalla todos los mensajes que hay dentro de la cola
+            public void run(){
+                caducado(nombre_cola, mensaje);
+            }  
+
+        }).start();
+
         System.out.println("Mensajes en la cola " + nombre_cola + ":");
         for (int i = 0; i < colas.size(); i++){
             if (colas.get(i).nombre.equals(nombre_cola)){
