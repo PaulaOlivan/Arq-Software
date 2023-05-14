@@ -36,10 +36,11 @@ implements Broker
             for (Cola cola : colas){
                 if (cola.nombre.equals(nombre_cola)){
                     Boolean consumido = cola.deleteMessage(mensaje);
-                    if (!consumido){
+
+                    if (!consumido){ // El mensaje había sido consumido por un consumidor
                         System.out.println("El mensaje " + mensaje + " no está en la cola " + nombre_cola);
                     }
-                    else{
+                    else{ // El mensaje se ha caducado dentro de la cola
                         System.out.println("El mensaje " + mensaje + " se ha sido caducado");
                     }
                 }
@@ -51,25 +52,36 @@ implements Broker
     }
 
 
-    public void declarar_cola(String nombre_cola) throws RemoteException{//Versión anónima para clientes
+    // Función que implementa el patrón Singleton para localizar si una cola 
+    // nombre_cola existe dentro de Broker de mensajes
+    private Boolean existeCola(String nombre_cola){
+        Boolean existe = false;
+        for (Cola cola : colas){
+            if (cola.nombre.equals(nombre_cola)){
+                existe = true;
+            }
+        }
+        return existe;
+    }
+
+
+    // Función que será invocada desde los productores para crear una nueva cola.
+    // Si la cola ya existe no se hará nada
+    public void declarar_cola(String nombre_cola) throws RemoteException{//Versión anónima para productores
         Cola cola = new Cola(nombre_cola);
         colas.add(cola);
     }  
 
+    // Función que será invocada desde los consumidores para crear una nueva cola.
+    // Si la cola ya existe no se creará de nuevo, solo se añadirá el consumidor
+    // como suscriptor dentro de la cola que buscaba crear.
     public void declarar_cola(String nombre_cola, String nombre_consumidor, String ip) throws RemoteException
     {
-        
-        Boolean existe = false;
 
-        for (int i = 0; i < colas.size(); i++){
-            if (colas.get(i).nombre.equals(nombre_cola)){
-                existe = true;
-            }
-        }
-
-        if (!existe) {
+        if (!existeCola(nombre_cola)) { // Si no existe la cola se crea
             Cola cola = new Cola(nombre_cola);
             colas.add(cola);
+            // Suscribimos al consumidor a la cola para poder llamarle con callback
             Suscriptor consus = new Suscriptor(nombre_consumidor, ip, nombre_cola);
         }
 
