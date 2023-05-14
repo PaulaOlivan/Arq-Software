@@ -20,15 +20,16 @@ implements Broker
     public BrokerImpl() throws RemoteException
     {
         super();
-        this.nameBroker = "Broker_771";
-        this.IPBRoker = "155.210.154.203:32003";
+        this.nameBroker = "Broker_771"; // Nombre del broker por defecto
+        this.IPBRoker = "155.210.154.203:32003"; // IP:Puerto del broker por defecto
         this.colas = new ArrayList<Cola>();
         this.consumidores = new ArrayList<Suscriptor>();
     }
 
 
-    // Función que espera 15 segundos a que un mensaje sea consumido, si pasado
-    // ese tiempo no ha sido consumido, lo elimina de la cola
+    // Función que espera 5 minutos a que un mensaje sea consumido, si pasado
+    // ese tiempo no ha sido consumido, lo elimina de la cola. Si el mensaje
+    // ya había sido consumidor muestra un mensaje de error por pantalla
     private void caducado(String nombre_cola, String mensaje){
         try {
             Thread.sleep(300000); // Esperar 5 minutos hasta que el mensaje caduque

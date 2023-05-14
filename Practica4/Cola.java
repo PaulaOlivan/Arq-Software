@@ -15,12 +15,12 @@ public class Cola
     }
 
 
-    //Funcion que dado un String mensaje lo agrega a la cola
+    //Función que dado un String mensaje lo agrega a la cola
     public void addMessage(String _message){
         mensajes.add(_message);
     }
     
-    //Funcion que elimina un mensaje que se ha caducado
+    //Función que elimina un mensaje, será llamada únicamente por el hilo de caducidad
     public Boolean deleteMessage(String msg){
         String message = "";
         Boolean consumido;
@@ -42,7 +42,8 @@ public class Cola
         return consumido;
     }
 
-    //Funcion que busca en la cola un mensaje y lo consume
+    // Función que busca en la cola un mensaje y lo consume, será llamada por los consumidores
+    // cuando el Broker haya realizado un callback
     public String consumeMessage(){
         String message = "";
         if (mensajes.size() > 0){
