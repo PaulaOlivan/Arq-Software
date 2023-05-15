@@ -32,13 +32,14 @@ public class Productor {
                 System.out.println("Conectado al broker " + brokerName + " y listo para enviar mensajes");
                 
                 // Crear cola
-                broker.declarar_cola(colaName, "", "");
+                broker.declarar_cola(colaName);
 
                 // Enviar mensaje
                 int num = random();
 
                 String msg = "Mensaje" + num;
-                broker.publicar(colaName, msg);
+                System.out.println("Enviando mensaje: " + msg + " a la cola " + colaName + "...");
+                broker.publicar(colaName, msg, false);
             }
             catch(Exception e){
                 System.err.println("Productor exception:");
@@ -59,7 +60,7 @@ public class Productor {
                 int num = random();
 
                 String msg = "Mensaje" + num;
-                broker.publicar(cola, msg);
+                broker.publicar(cola, msg, false);
             }
             catch(Exception e){
                 System.err.println("Productor exception:");

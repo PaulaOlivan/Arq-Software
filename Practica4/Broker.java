@@ -21,7 +21,10 @@ public interface Broker extends Remote
     String consumir (String nombre_cola) throws RemoteException;
 
     // Función que permite a los productores publicar un mensaje en la cola que deseen
-    void publicar (String nombre_cola, String mensaje) throws RemoteException;
+    void publicar (String nombre_cola, String mensaje, Boolean durable) throws RemoteException;
+
+    //Función que permite al consumidor comunicarle al broker que ya está listo para consumir otro mensaje
+    void liberar (String consumer, String nombreCola) throws RemoteException;
 }
 
 

@@ -1,3 +1,11 @@
+/*
+ * Autores: Paula Olivan Usieto (771938) & Juan Pellicer Barco (818138)
+ * Fecha de creación: 04/05/2023
+ * Descripción: fichero que implementa la interfaz Broker para que se pueda crear
+ *              el broker con una API publica pero sin mostrar como se implementan
+ *              las funciones. Se permiten crear colas y consumir y publicar mensajes
+ */
+
 import java.rmi.RemoteException;
 import java.rmi.Naming;
 import java.rmi.server.UnicastRemoteObject;
@@ -68,8 +76,11 @@ implements Broker
     // Función que será invocada desde los productores para crear una nueva cola.
     // Si la cola ya existe no se hará nada
     public void declarar_cola(String nombre_cola) throws RemoteException{//Versión anónima para productores
-        Cola cola = new Cola(nombre_cola);
-        colas.add(cola);
+        
+        if (!existeCola(nombre_cola)) { // Si no existe la cola se crea
+            Cola cola = new Cola(nombre_cola);
+            colas.add(cola);   
+        }
     }  
 
     // Función que será invocada desde los consumidores para crear una nueva cola.
@@ -81,9 +92,17 @@ implements Broker
         if (!existeCola(nombre_cola)) { // Si no existe la cola se crea
             Cola cola = new Cola(nombre_cola);
             colas.add(cola);
-            // Suscribimos al consumidor a la cola para poder llamarle con callback
-            Suscriptor consus = new Suscriptor(nombre_consumidor, ip, nombre_cola);
+            
         }
+
+        // Suscribimos al consumidor a la cola para poder llamarle con callback
+        Suscriptor consus = new Suscriptor(nombre_consumidor, ip, nombre_cola);
+        for (Cola cola : colas){
+            if (cola.nombre.equals(nombre_cola)){
+                cola.addConsumer(nombre_consumidor, ip);
+            }
+        }
+        System.out.println("El consumidor " + nombre_consumidor + " se ha suscrito a la cola " + nombre_cola);
 
     }
 
@@ -100,28 +119,49 @@ implements Broker
         return message;
     }
 
+    //Muestra que el consumer esta libre y listo para consumir otro mensaje
+    public void liberar (String consumer, String nombreCola) throws RemoteException{
+        for (Cola cola : colas){
+            if (cola.nombre.equals(nombreCola)){
+                cola.liberarConsumidor(consumer);
 
-    public void publicar (String nombre_cola, String mensaje) throws RemoteException
+                System.out.println("El consumidor " + consumer + " puede recibir mensajes de la cola " + nombreCola);
+            }
+        }
+    }
+
+    // Función que será invocada desde los productores con el objetivo de añadir un
+    // mensaje a la cola nombre_cola. Si el booleano durable es falso el mensaje
+    // poseerá una caducidad de 5 minutos, si es true el mensaje no caducará y 
+    // tendrá persistencia en memoria.
+    public void publicar (String nombre_cola, String mensaje, Boolean durable) throws RemoteException
     {   
-        // Crear timer para que cuando pasen 5 mins el mensaje se elimine de la cola 
-
         System.out.println("Existen un total de " + colas.size() + " colas");
         for (int i = 0; i < colas.size(); i++){
             if (colas.get(i).nombre.equals(nombre_cola)){
                 colas.get(i).addMessage(mensaje);
                 System.out.println("El mensaje añadido a la cola " + nombre_cola + " es:" + mensaje);
-            }
+
+                // Si no hay consumidores suscritos a la cola, el mensaje se eliminará de la misma
+                if (colas.get(i).getNumConsumidores() == 0){ 
+                    System.out.println("No hay consumidores suscritos a la cola " + nombre_cola);
+                    colas.get(i).deleteMessage(mensaje);
+                }
+            }   
         }
-        // LLamar a la función caducado para que el mensaje pueda ser eliminado
-        // si pasa un tiempo determinado
-        new Thread(new Runnable(){
 
-            public void run(){
-                caducado(nombre_cola, mensaje);
-            }  
+        if (durable == false){
+            // LLamar a la función caducado para que el mensaje caduque
+            new Thread(new Runnable(){
 
-        }).start();
+                public void run(){
+                    caducado(nombre_cola, mensaje);
+                }  
 
+            }).start();
+        }
+
+        // Numeramos los mensajes que hay en la cola actualizada
         System.out.println("Mensajes en la cola " + nombre_cola + ":");
         for (int i = 0; i < colas.size(); i++){
             if (colas.get(i).nombre.equals(nombre_cola)){
@@ -130,17 +170,44 @@ implements Broker
                 }
             }
         }
+
+        //Llamamos al consumidor al que le toca procesar el mensaje con callback
+        String[] datosConsumidor = new String[2];
+        for (Cola cola : colas){
+            if (cola.nombre.equals(nombre_cola)){
+                datosConsumidor = cola.getConsumidor();
+            }
+        }
+        
+        try{
+
+            String consumerName = datosConsumidor[0];
+            String consumerIP = datosConsumidor[1];
+
+            System.out.println("Llamando en la dirección " + consumerIP + " al consumer " + consumerName);
+            Consumidor consumer = (Consumidor) Naming.lookup("//" + consumerIP + "/" + consumerName);
+            System.out.println("Se ha conectado con el servidor correspondiente");
+            
+            consumer.call_back(this.nameBroker, this.IPBRoker);
+            System.out.println("Se ha llamado al consumidor " + datosConsumidor[0] + " para que consuma el mensaje.");
+        }
+        catch (Exception e){
+            System.err.println("Consumer exception:");
+            e.printStackTrace();
+        }     
     }
 
     public static void main(String args[]) {
 
         try{
+            // Inicializamos el broker como un servidor para que pueda ser llamado
             BrokerImpl Broke = new BrokerImpl();
             System.out.println("Broker creado\n");
 
             Naming.rebind("//" + Broke.IPBRoker + "/" + Broke.nameBroker, Broke);
         }
         catch (Exception e){
+            // Si alguna función anterior da error lo capturamos y mostramos por pantalla
             System.err.println(e);
         }
     }
